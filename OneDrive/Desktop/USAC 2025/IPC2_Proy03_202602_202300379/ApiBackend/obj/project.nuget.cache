@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ewc7fAh/KjQ=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tofab\\OneDrive\\Desktop\\USAC 2025\\IPC2_Proy03_202602_202300379\\ApiBackend\\ApiBackend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tofab\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.12\\microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+    "C:\\Users\\tofab\\.nuget\\packages\\microsoft.openapi\\2.12.0\\microsoft.openapi.2.12.0.nupkg.sha512"
+  ],
+  "logs": []
+}
