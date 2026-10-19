@@ -1,10 +1,52 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Inicio - Control de Facturas";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center my-4">
+    <h1 class="display-4 fw-bold text-primary">Sistema de Autorización de Facturas</h1>
+    <p class="lead">Administración de RTU, Facturación Electrónica y Reportes</p>
 </div>
+
+<div class="row mt-5 g-4">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">Carga de Datos</h5>
+                <p class="card-text text-muted">Sube archivos JSON o ingresa datos para actualizar el RTU o enviar facturas.</p>
+                <a href="/CargarDatos" class="btn btn-outline-primary w-100">Ir a Cargar Datos</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">Consultas y Reportes</h5>
+                <p class="card-text text-muted">Visualiza el historial, estadísticas en gráfica y genera reportes PDF.</p>
+                <a href="/Reportes" class="btn btn-outline-success w-100">Ver Reportes</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold text-danger">Resetear Sistema</h5>
+                <p class="card-text text-muted">Borra todos los datos almacenados y restablece los correlativos.</p>
+                <form method="post" asp-page-handler="Resetear" onsubmit="return confirm('¿Seguro que deseas eliminar todos los datos?');">
+                    <button type="submit" class="btn btn-outline-danger w-100">Resetear Todo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show mt-4" role="alert">
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}

@@ -1,0 +1,141 @@
+@page
+@model WebFrontend.Pages.ReportesModel
+@{
+    ViewData["Title"] = "Consultas y Reportes";
+}
+
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-primary mb-1">Consultas y Reportes Estadísticos</h2>
+            <p class="text-muted mb-0">Resumen global de facturación y autorizaciones</p>
+        </div>
+        <form method="post" asp-page-handler="GenerarPdf">
+            <button type="submit" class="btn btn-danger shadow-sm">
+                <i class="bi bi-file-earmark-pdf"></i> Descargar Reporte PDF
+            </button>
+        </form>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-primary text-white p-3 rounded-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase fw-bold mb-1">Total Procesadas</h6>
+                        <h3 class="fw-bold mb-0">@Model.TotalProcesadas</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-success text-white p-3 rounded-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase fw-bold mb-1">Aprobadas</h6>
+                        <h3 class="fw-bold mb-0">@Model.TotalAprobadas</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-danger text-white p-3 rounded-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-white-50 text-uppercase fw-bold mb-1">Rechazadas</h6>
+                        <h3 class="fw-bold mb-0">@Model.TotalRechazadas</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-8 mx-auto">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold text-secondary mb-3 text-center">Estado de Facturación</h5>
+                <canvas id="graficaFacturas" style="max-height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-white py-3 border-0">
+            <h5 class="fw-bold text-dark mb-0">Listado de Facturas Registradas</h5>
+        </div>
+        <div class="table-responsive p-3">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Referencia</th>
+                        <th>Emisor</th>
+                        <th>Receptor</th>
+                        <th>Valor</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Código Aprobación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ListaFacturas != null && Model.ListaFacturas.Any())
+                    {
+                        @foreach (var fac in Model.ListaFacturas)
+                        {
+                            <tr>
+                                <td class="fw-bold">@fac.Referencia</td>
+                                <td>@fac.NitEmisor</td>
+                                <td>@fac.NitReceptor</td>
+                                <td>Q @fac.Valor.ToString("N2")</td>
+                                <td>Q @fac.Iva.ToString("N2")</td>
+                                <td class="fw-bold">Q @fac.Total.ToString("N2")</td>
+                                <td>
+                                    @if (fac.EsValida)
+                                    {
+                                        <span class="badge bg-success-subtle text-success border border-success fw-semibold">Aprobada</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger-subtle text-danger border border-danger fw-semibold">Rechazada</span>
+                                    }
+                                </td>
+                                <td><code>@(fac.CodigoAprobacion ?? "N/A")</code></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">No hay facturas registradas en el sistema.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('graficaFacturas').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Aprobadas', 'Rechazadas'],
+                datasets: [{
+                    data: [@Model.TotalAprobadas, @Model.TotalRechazadas],
+                    backgroundColor: ['#198754', '#dc3545'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    });
+</script>
