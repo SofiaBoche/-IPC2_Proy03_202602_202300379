@@ -41,7 +41,7 @@ C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFronte
 C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\scopedcss\bundle\WebFrontend.styles.css
 C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\scopedcss\projectbundle\WebFrontend.bundle.scp.css
-C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\compressed\1sogw2xk8a-{0}-b9sayid5wm-b9sayid5wm.gz
+C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\compressed\1sogw2xk8a-{0}-gshqvhcwj1-gshqvhcwj1.gz
 C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\compressed\bav5scxm55-{0}-61n19gt1b8-61n19gt1b8.gz
 C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\compressed\lzleqzzpj4-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\Users\tofab\OneDrive\Desktop\USAC 2025\IPC2_Proy03_202602_202300379\WebFrontend\obj\Debug\net10.0\compressed\q0v0e7d8p8-{0}-bqjiyaj88i-bqjiyaj88i.gz

@@ -1,58 +1,60 @@
 @page
 @model WebFrontend.Pages.CargarDatosModel
 @{
-    ViewData["Title"] = "Cargar Datos";
+    ViewData["Title"] = "Carga de Datos";
 }
 
-<div class="container my-4">
-    <h2 class="fw-bold text-primary mb-4">Carga de Datos (RTU y Facturas)</h2>
+<h2 class="mb-4 fw-bold" style="color: #576d2c;">Carga de Datos (RTU y Facturas)</h2>
 
-    <div class="row g-4">
-
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-primary text-white fw-bold">
-                    1. Cargar / Actualizar RTU
-                </div>
-                <div class="card-body">
-                    <form method="post" asp-page-handler="ProcesarRtu">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Entrada JSON para RTU:</label>
-                            <textarea class="form-control" name="jsonRtu" rows="8" placeholder='[{"NIT": "1234567K", "NOMBRE": "Empresa S.A."}]'></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Procesar RTU</button>
-                    </form>
-                </div>
+<div class="row">
+    
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+            <div class="card-header text-white fw-bold py-3" style="background-color: #576d2c;">
+                1. Cargar / Actualizar RTU
             </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-success text-white fw-bold">
-                    2. Autorización de Facturas
-                </div>
-                <div class="card-body">
-                    <form method="post" asp-page-handler="ProcesarFacturas">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Entrada JSON de Solicitud:</label>
-                            <textarea class="form-control" name="jsonFacturas" rows="8" placeholder='[{"TIEMPO": "Guatemala, 15/01/2026 10:00 hrs.", "REFERENCIA": "FAC-001", "NIT EMISOR": "1234567K", "NIT RECEPTOR": "76543219", "VALOR": 100.00, "IVA": 12.00, "TOTAL": 112.00}]'></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100">Procesar Facturas</button>
-                    </form>
-                </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+                <form method="post" asp-page-handler="ProcesarRtu">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Entrada JSON para RTU:</label>
+                        <textarea class="form-control font-monospace" name="jsonRtu" rows="8" placeholder='[{"NIT": "1234567K", "NOMBRE": "Empresa S.A."}]'></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-custom-primary w-100 fw-bold">Procesar RTU</button>
+                </form>
             </div>
         </div>
     </div>
 
-    @if (Model.ResultadoJson != null)
-    {
-        <div class="card shadow-sm border-0 mt-4">
-            <div class="card-header bg-dark text-white fw-bold">
-                Respuesta del Sistema (JSON)
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+            <div class="card-header text-white fw-bold py-3" style="background-color: #576d2c;">
+                2. Autorización de Facturas
             </div>
-            <div class="card-body bg-light">
-                <pre class="m-0"><code>@Model.ResultadoJson</code></pre>
+            <div class="card-body d-flex flex-column justify-content-between">
+                <form method="post" asp-page-handler="ProcesarFacturas">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">Entrada JSON de Solicitud:</label>
+                        <textarea class="form-control font-monospace" name="jsonFacturas" rows="8" placeholder='[{"TIEMPO": "Guatemala, 15/01/2026 10:00 hrs.", "REFERENCIA": "FAC-001", "NIT EMISOR": "1234567K", "NIT RECEPTOR": "76543219", "VALOR": 100.00, "IVA": 12.00, "TOTAL": 112.00}]'></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-custom-primary w-100 fw-bold">Procesar Facturas</button>
+                </form>
             </div>
         </div>
-    }
+    </div>
 </div>
+
+@if (!string.IsNullOrEmpty(Model.ResultadoJson))
+{
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white fw-bold py-2">
+                    Respuesta del Sistema (JSON)
+                </div>
+                <div class="card-body bg-light">
+                    <pre class="mb-0 font-monospace"><code>@Model.ResultadoJson</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+}

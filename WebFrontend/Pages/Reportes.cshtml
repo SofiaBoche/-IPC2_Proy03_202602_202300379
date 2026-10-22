@@ -7,11 +7,11 @@
 <div class="container my-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold text-primary mb-1">Consultas y Reportes Estadísticos</h2>
+            <h2 class="fw-bold mb-1" style="color: var(--color-principal);">Consultas y Reportes Estadísticos</h2>
             <p class="text-muted mb-0">Resumen global de facturación y autorizaciones</p>
         </div>
         <form method="post" asp-page-handler="GenerarPdf">
-            <button type="submit" class="btn btn-danger shadow-sm">
+            <button type="submit" class="btn btn-custom-pdf shadow-sm fw-bold">
                 <i class="bi bi-file-earmark-pdf"></i> Descargar Reporte PDF
             </button>
         </form>
@@ -19,7 +19,7 @@
 
     <div class="row g-3 mb-4">
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-primary text-white p-3 rounded-3">
+            <div class="card border-0 shadow-sm card-total text-white p-3 rounded-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="text-white-50 text-uppercase fw-bold mb-1">Total Procesadas</h6>
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-success text-white p-3 rounded-3">
+            <div class="card border-0 shadow-sm card-aprobadas text-white p-3 rounded-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="text-white-50 text-uppercase fw-bold mb-1">Aprobadas</h6>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card border-0 shadow-sm bg-danger text-white p-3 rounded-3">
+            <div class="card border-0 shadow-sm card-rechazadas text-white p-3 rounded-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="text-white-50 text-uppercase fw-bold mb-1">Rechazadas</h6>
@@ -92,11 +92,11 @@
                                 <td>
                                     @if (fac.EsValida)
                                     {
-                                        <span class="badge bg-success-subtle text-success border border-success fw-semibold">Aprobada</span>
+                                        <span class="badge border fw-semibold" style="background-color: rgba(87, 109, 44, 0.15); color: #576d2c; border-color: #576d2c !important;">Aprobada</span>
                                     }
                                     else
                                     {
-                                        <span class="badge bg-danger-subtle text-danger border border-danger fw-semibold">Rechazada</span>
+                                        <span class="badge border fw-semibold" style="background-color: rgba(204, 99, 51, 0.15); color: #cc6333; border-color: #cc6333 !important;">Rechazada</span>
                                     }
                                 </td>
                                 <td><code>@(fac.CodigoAprobacion ?? "N/A")</code></td>
@@ -125,7 +125,7 @@
                 labels: ['Aprobadas', 'Rechazadas'],
                 datasets: [{
                     data: [@Model.TotalAprobadas, @Model.TotalRechazadas],
-                    backgroundColor: ['#198754', '#dc3545'],
+                    backgroundColor: ['#576d2c', '#cc6333'],
                     borderWidth: 0
                 }]
             },

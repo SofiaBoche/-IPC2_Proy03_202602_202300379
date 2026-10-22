@@ -26,7 +26,7 @@ namespace WebFrontend.Pages
             if (string.IsNullOrWhiteSpace(jsonRtu)) return Page();
 
             var content = new StringContent(jsonRtu, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{ApiBaseUrl}procesar-rtu", content);
+            var response = await _httpClient.PostAsync("http://localhost:5234/api/procesar-rtu", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -45,7 +45,7 @@ namespace WebFrontend.Pages
             if (string.IsNullOrWhiteSpace(jsonFacturas)) return Page();
 
             var content = new StringContent(jsonFacturas, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"{ApiBaseUrl}procesar-facturas", content);
+           var response = await _httpClient.PostAsync("http://localhost:5234/api/procesar-facturas", content);
 
             if (response.IsSuccessStatusCode)
             {

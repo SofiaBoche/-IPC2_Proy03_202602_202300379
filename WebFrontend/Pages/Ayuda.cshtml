@@ -1,0 +1,41 @@
+@page
+@model WebFrontend.Pages.AyudaModel
+@{
+    ViewData["Title"] = "Ayuda e Información";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header text-white" style="background-color: #576d2c;">
+            <h3 class="mb-0"><i class="bi bi-info-circle-fill me-2"></i>Información del Estudiante y Sistema</h3>
+        </div>
+        <div class="card-body p-4">
+            
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-person-badge-fill me-2"></i>Datos del Desarrollador</h5>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Nombre:</strong> Mónica Sofia Boche Figueroa</li>
+                        <li class="list-group-item"><strong>Carné:</strong> 202300379</li>
+                        <li class="list-group-item"><strong>Curso:</strong> Introducción a la Programación y Computación 2</li>
+                        <li class="list-group-item"><strong>Proyecto:</strong> Proyecto 3 - Sistema DTE</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="alert alert-light border shadow-sm p-4 mt-3" style="border-left: 5px solid #cc6333 !important;">
+                <h5 class="fw-bold" style="color: #cc6333;"><i class="bi bi-file-earmark-pdf-fill me-2"></i>Documentación Técnica y Diagramas</h5>
+                <p class="text-secondary mt-2">
+                    Haz clic en el siguiente botón para visualizar la documentación.
+                </p>
+
+                <a href="~/Ensayo/Ensayado_Proyecto_3_202300379.pdf" target="_blank" class="btn text-white fw-bold mt-2" style="background-color: #cc6333;">
+                    <i class="bi bi-box-arrow-up-right me-2"></i>Ver Documentación (PDF)
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
