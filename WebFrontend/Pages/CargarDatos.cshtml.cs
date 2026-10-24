@@ -1,61 +1,46 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
+using WebFrontend.Services;
 using System.Threading.Tasks;
 
 namespace WebFrontend.Pages
 {
     public class CargarDatosModel : PageModel
     {
-        private readonly HttpClient _httpClient;
-        private const string ApiBaseUrl = "http://localhost:5234/api/"; 
+        private readonly ApiService _apiService;
 
-        public string? ResultadoJson { get; set; }
+        [BindProperty]
+        public string JsonRtu { get; set; } = string.Empty;
 
-        public CargarDatosModel(HttpClient httpClient)
+        [BindProperty]
+        public string JsonFacturas { get; set; } = string.Empty;
+
+        public string ResultadoJson { get; set; } = string.Empty;
+
+        public CargarDatosModel(ApiService apiService)
         {
-            _httpClient = httpClient;
+            _apiService = apiService;
         }
 
-        public void OnGet() { }
-
-        public async Task<IActionResult> OnPostProcesarRtuAsync(string jsonRtu)
+        public void OnGet()
         {
-            if (string.IsNullOrWhiteSpace(jsonRtu)) return Page();
+        }
 
-            var content = new StringContent(jsonRtu, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("http://localhost:5234/api/procesar-rtu", content);
-
-            if (response.IsSuccessStatusCode)
+        public async Task<IActionResult> OnPostProcesarRtuAsync()
+        {
+            if (!string.IsNullOrWhiteSpace(JsonRtu))
             {
-                ResultadoJson = await response.Content.ReadAsStringAsync();
+                ResultadoJson = await _apiService.EnviarRtuAsync(JsonRtu);
             }
-            else
-            {
-                ResultadoJson = "Error al comunicarse con el API de Backend.";
-            }
-
             return Page();
         }
 
-        public async Task<IActionResult> OnPostProcesarFacturasAsync(string jsonFacturas)
+        public async Task<IActionResult> OnPostProcesarFacturasAsync()
         {
-            if (string.IsNullOrWhiteSpace(jsonFacturas)) return Page();
-
-            var content = new StringContent(jsonFacturas, Encoding.UTF8, "application/json");
-           var response = await _httpClient.PostAsync("http://localhost:5234/api/procesar-facturas", content);
-
-            if (response.IsSuccessStatusCode)
+            if (!string.IsNullOrWhiteSpace(JsonFacturas))
             {
-                ResultadoJson = await response.Content.ReadAsStringAsync();
+                ResultadoJson = await _apiService.EnviarFacturasAsync(JsonFacturas);
             }
-            else
-            {
-                ResultadoJson = "Error al comunicarse con el API de Backend.";
-            }
-
             return Page();
         }
     }

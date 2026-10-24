@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -31,7 +32,9 @@ namespace WebFrontend.Pages
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<List<FacturaDto>>($"{ApiBaseUrl}consulta-datos");
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var response = await _httpClient.GetFromJsonAsync<List<FacturaDto>>($"{ApiBaseUrl}consulta-datos", options);
+                
                 if (response != null)
                 {
                     ListaFacturas = response;

@@ -41,8 +41,39 @@
                     <h4 class="fw-bold" style="color: #cc6333;">Resetear Sistema</h4>
                     <p class="text-muted small">Borra todos los datos almacenados y restablece los correlativos.</p>
                 </div>
-                <button type="button" class="btn text-white w-100 fw-bold mt-3" style="background-color: #cc6333; border-color: #cc6333;">Resetear Todo</button>
+                @Html.AntiForgeryToken()
+                <button type="button" class="btn text-white w-100 fw-bold mt-3" style="background-color: #cc6333; border-color: #cc6333;" onclick="resetearSistema()">Resetear Todo</button>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        async function resetearSistema() {
+            if (confirm("¿Estás seguro de que deseas reiniciar todos los datos del sistema?")) {
+                try {
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+                    const response = await fetch('?handler=Resetear', {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': token
+                        }
+                    });
+                    
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("No se pudo realizar el reseteo desde la aplicación.");
+                }
+            }
+        }
+    </script>
+}

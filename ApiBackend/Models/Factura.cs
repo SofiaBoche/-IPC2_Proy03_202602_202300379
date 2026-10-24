@@ -1,9 +1,8 @@
-using System;
 using System.Text.Json.Serialization;
 
 namespace ApiBackend.Models
 {
-    public class Factura
+    public class SolicitudFacturaInputDto
     {
         [JsonPropertyName("TIEMPO")]
         public string Tiempo { get; set; } = string.Empty;
@@ -25,9 +24,16 @@ namespace ApiBackend.Models
 
         [JsonPropertyName("TOTAL")]
         public decimal Total { get; set; }
-
+    }
+    public class FacturaDto
+    {
+        public string Referencia { get; set; } = string.Empty;
+        public string NitEmisor { get; set; } = string.Empty;
+        public string NitReceptor { get; set; } = string.Empty;
+        public decimal Valor { get; set; }
+        public decimal Iva { get; set; }
+        public decimal Total { get; set; }
+        public bool EsValida { get; set; }
         public string? CodigoAprobacion { get; set; }
-        public bool EsValida { get; set; } = false;
-        public DateTime? FechaProcesamiento { get; set; }
     }
 }

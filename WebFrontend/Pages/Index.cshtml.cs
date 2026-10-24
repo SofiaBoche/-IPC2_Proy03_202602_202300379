@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
 using WebFrontend.Services;
+using System.Threading.Tasks;
 
 namespace WebFrontend.Pages
 {
@@ -20,17 +20,13 @@ namespace WebFrontend.Pages
 
         public async Task<IActionResult> OnPostResetearAsync()
         {
-            bool exito = await _apiService.ResetearSistemaAsync();
-            if (exito)
+            bool resultado = await _apiService.ResetearSistemaAsync();
+            if (resultado)
             {
-                TempData["Mensaje"] = "El sistema ha sido reiniciado correctamente.";
-            }
-            else
-            {
-                TempData["Mensaje"] = "No se pudo conectar con la API para reiniciar el sistema.";
+                return new JsonResult(new { success = true, message = "Sistema reiniciado con éxito." });
             }
 
-            return RedirectToPage();
+            return new JsonResult(new { success = false, message = "Ocurrió un error al intentar reiniciar el sistema." });
         }
     }
 }

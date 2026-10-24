@@ -5,15 +5,16 @@ namespace ApiBackend.Models
 {
     public class RespuestaRtuDto
     {
-        [JsonPropertyName("CONTRIBUYENTES NUEVOS")]
+        [JsonPropertyName("CONTRIBUYENTES_NUEVOS")]
         public int ContribuyentesNuevos { get; set; }
 
-        [JsonPropertyName("CONTRIBUYENTES ACTUALIZADOS")]
+        [JsonPropertyName("CONTRIBUYENTES_ACTUALIZADOS")]
         public int ContribuyentesActualizados { get; set; }
 
-        [JsonPropertyName("NITS INVALIDOS")]
+        [JsonPropertyName("NITS_INVALIDOS")]
         public int NitsInvalidos { get; set; }
     }
+
     public class DetalleAprobacionDto
     {
         [JsonPropertyName("referencia")]
@@ -23,16 +24,43 @@ namespace ApiBackend.Models
         public string CodigoAprobacion { get; set; } = string.Empty;
     }
 
+    public class ErroresFacturaDto
+    {
+        [JsonPropertyName("nitEmisorInvalido")]
+        public int NitEmisorInvalido { get; set; }
+
+        [JsonPropertyName("nitReceptorInvalido")]
+        public int NitReceptorInvalido { get; set; }
+
+        [JsonPropertyName("nitEmisorInexistente")]
+        public int NitEmisorInexistente { get; set; }
+
+        [JsonPropertyName("nitReceptorInexistente")]
+        public int NitReceptorInexistente { get; set; }
+
+        [JsonPropertyName("ivaMalCalculado")]
+        public int IvaMalCalculado { get; set; }
+
+        [JsonPropertyName("totalMalCalculado")]
+        public int TotalMalCalculado { get; set; }
+
+        [JsonPropertyName("referenciaDuplicada")]
+        public int ReferenciaDuplicada { get; set; }
+    }
+
     public class ResultadoAutorizacionesDto
     {
-        [JsonPropertyName("cantidadAutorizacionesAprobadas")]
-        public int CantidadAutorizacionesAprobadas { get; set; }
+        [JsonPropertyName("aprobadas")]
+        public int Aprobadas { get; set; }
 
-        [JsonPropertyName("cantidadAutorizacionesRechazadasPorNitEmisorInexistente")]
-        public int CantidadAutorizacionesRechazadasPorNitEmisorInexistente { get; set; }
+        [JsonPropertyName("rechazadas")]
+        public int Rechazadas { get; set; }
 
-        [JsonPropertyName("cantidadAutorizacionesRechazadasPorNitReceptorInexistente")]
-        public int CantidadAutorizacionesRechazadasPorNitReceptorInexistente { get; set; }
+        [JsonPropertyName("errores")]
+        public ErroresFacturaDto Errores { get; set; } = new ErroresFacturaDto();
+
+        [JsonPropertyName("descartadasPorFormato")]
+        public int DescartadasPorFormato { get; set; }
 
         [JsonPropertyName("detalleAprobaciones")]
         public List<DetalleAprobacionDto> DetalleAprobaciones { get; set; } = new List<DetalleAprobacionDto>();

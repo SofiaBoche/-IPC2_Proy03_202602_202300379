@@ -16,8 +16,11 @@
             <div class="card-body d-flex flex-column justify-content-between">
                 <form method="post" asp-page-handler="ProcesarRtu">
                     <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">Seleccionar archivo .json (opcional):</label>
+                        <input type="file" class="form-control mb-2" accept=".json" onchange="cargarArchivoEnTextarea(this, 'rtuArea')" />
+                        
                         <label class="form-label fw-bold text-dark">Entrada JSON para RTU:</label>
-                        <textarea class="form-control font-monospace" name="jsonRtu" rows="8" placeholder='[{"NIT": "1234567K", "NOMBRE": "Empresa S.A."}]'></textarea>
+                        <textarea id="rtuArea" class="form-control font-monospace" name="JsonRtu" rows="8" placeholder='[{"NIT": "1234567K", "NOMBRE": "Empresa S.A."}]'>@Model.JsonRtu</textarea>
                     </div>
                     <button type="submit" class="btn btn-custom-primary w-100 fw-bold">Procesar RTU</button>
                 </form>
@@ -33,8 +36,11 @@
             <div class="card-body d-flex flex-column justify-content-between">
                 <form method="post" asp-page-handler="ProcesarFacturas">
                     <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">Seleccionar archivo .json (opcional):</label>
+                        <input type="file" class="form-control mb-2" accept=".json" onchange="cargarArchivoEnTextarea(this, 'facturasArea')" />
+
                         <label class="form-label fw-bold text-dark">Entrada JSON de Solicitud:</label>
-                        <textarea class="form-control font-monospace" name="jsonFacturas" rows="8" placeholder='[{"TIEMPO": "Guatemala, 15/01/2026 10:00 hrs.", "REFERENCIA": "FAC-001", "NIT EMISOR": "1234567K", "NIT RECEPTOR": "76543219", "VALOR": 100.00, "IVA": 12.00, "TOTAL": 112.00}]'></textarea>
+                        <textarea id="facturasArea" class="form-control font-monospace" name="JsonFacturas" rows="8" placeholder='[{"TIEMPO": "Guatemala, 15/01/2026 10:00 hrs.", "REFERENCIA": "FAC-001", "NIT EMISOR": "1234567K", "NIT RECEPTOR": "76543219", "VALOR": 100.00, "IVA": 12.00, "TOTAL": 112.00}]'>@Model.JsonFacturas</textarea>
                     </div>
                     <button type="submit" class="btn btn-custom-primary w-100 fw-bold">Procesar Facturas</button>
                 </form>
@@ -52,9 +58,24 @@
                     Respuesta del Sistema (JSON)
                 </div>
                 <div class="card-body bg-light">
-                    <pre class="mb-0 font-monospace"><code>@Model.ResultadoJson</code></pre>
+                    <pre class="mb-0 font-monospace" style="white-space: pre-wrap; word-break: break-all;"><code>@Model.ResultadoJson</code></pre>
                 </div>
             </div>
         </div>
     </div>
+}
+
+@section Scripts {
+    <script>
+        function cargarArchivoEnTextarea(inputElement, textareaId) {
+            const archivo = inputElement.files[0];
+            if (archivo) {
+                const lector = new FileReader();
+                lector.onload = function (e) {
+                    document.getElementById(textareaId).value = e.target.result;
+                };
+                lector.readAsText(archivo);
+            }
+        }
+    </script>
 }

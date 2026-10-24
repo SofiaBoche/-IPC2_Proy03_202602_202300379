@@ -1,7 +1,10 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ApiBackend.Models;
 using ApiBackend.Services;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace ApiBackend.Controllers
 {
@@ -9,27 +12,69 @@ namespace ApiBackend.Controllers
     [Route("api")]
     public class ApiController : ControllerBase
     {
-        private readonly DataService _dataService = new DataService();
+        private readonly DataService _dataService;
 
-        [HttpPost("procesar-rtu")]
-        public IActionResult ProcesarRtu([FromBody] List<Contribuyente> contribuyentes)
+        public ApiController(DataService dataService)
         {
-            var resultado = _dataService.ProcesarRtu(contribuyentes);
-            return Ok(resultado);
+            _dataService = dataService;
         }
 
-        [HttpPost("procesar-facturas")]
-        public IActionResult ProcesarFacturas([FromBody] List<Factura> facturas)
+        [HttpPost("cargardatos")]
+        public async Task<IActionResult> CargarDatos()
         {
-            var resultado = _dataService.ProcesarFacturas(facturas);
-            return Ok(new RespuestaAutorizacionesWrapper { ResultadoAutorizaciones = resultado });
+            try
+            {
+                using var reader = new StreamReader(Request.Body);
+                string rawJson = await reader.ReadToEndAsync();
+
+                if (string.IsNullOrWhiteSpace(rawJson))
+                {
+                    return BadRequest(new { error = "El cuerpo de la solicitud está vacío." });
+                }
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var listaRtu = JsonSerializer.Deserialize<List<ContribuyenteInputDto>>(rawJson, options);
+                var respuesta = _dataService.ProcesarRtu(listaRtu ?? new List<ContribuyenteInputDto>());
+                
+                return Ok(respuesta);
+            }
+            catch
+            {
+                return BadRequest(new { error = "El formato JSON de RTU es inválido." });
+            }
         }
 
-        [HttpGet("consulta-datos")]
-        public IActionResult ObtenerFacturas()
+        [HttpPost("autorizaciones")]
+        public async Task<IActionResult> AutorizarFacturas()
         {
-            var facturas = _dataService.ObtenerFacturas();
-            return Ok(facturas);
+            try
+            {
+                using var reader = new StreamReader(Request.Body);
+                string rawJson = await reader.ReadToEndAsync();
+
+                if (string.IsNullOrWhiteSpace(rawJson))
+                {
+                    return BadRequest(new { error = "El cuerpo de la solicitud está vacío." });
+                }
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var listaFacturas = JsonSerializer.Deserialize<List<SolicitudFacturaInputDto>>(rawJson, options);
+                var respuesta = _dataService.ProcesarFacturas(listaFacturas ?? new List<SolicitudFacturaInputDto>());
+                
+                return Ok(respuesta);
+            }
+            catch
+            {
+                return BadRequest(new { error = "El formato JSON de Facturas es inválido." });
+            }
         }
 
         [HttpPost("resetear")]
@@ -37,6 +82,26 @@ namespace ApiBackend.Controllers
         {
             _dataService.ResetearSistema();
             return Ok(new { mensaje = "Sistema reiniciado con éxito." });
+        }
+        [HttpGet("contribuyentes")]
+        public IActionResult ObtenerContribuyentes()
+        {
+            var lista = _dataService.ObtenerTodosContribuyentes();
+            return Ok(lista);
+        }
+
+        [HttpGet("historial")]
+        public IActionResult ObtenerHistorial()
+        {
+            var resumen = _dataService.ObtenerResumenHistorial();
+            return Ok(resumen);
+        }
+        
+        [HttpGet("consulta-datos")]
+        public IActionResult ObtenerConsultaDatos()
+        {
+            var facturas = _dataService.ObtenerFacturasProcesadas();
+            return Ok(facturas);
         }
     }
 }
